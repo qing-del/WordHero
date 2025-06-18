@@ -21,6 +21,17 @@ public class HeroDetailedInformationUI extends JFrame {
     JPanel heroBaseInformationPanel = new JPanel();
     JPanel buttonPanel = new JPanel();
 
+    // 将标签提升为成员变量以便刷新
+    private JLabel nameLabel;
+    private JLabel levelLabel;
+    private JLabel hpLabel;
+    private JLabel mpLabel;
+    private JLabel expLabel;
+    private JLabel attackLabel;
+    private JLabel defenseLabel;
+    private JLabel growthRateLabel;
+    private JLabel elementLabel;
+
     public HeroDetailedInformationUI(Hero hero, Boolean gm) {
         this.hero=hero;
         this.gm=gm;
@@ -49,37 +60,57 @@ public class HeroDetailedInformationUI extends JFrame {
      * 加载英雄基本信息
      */
     private void initLabel() {
-        JLabel name = new JLabel("英雄名字：" + hero.getName());
-        JLabel level = new JLabel("等级：" + hero.getLevel());
-        JLabel hp = new JLabel("Hp：" + hero.getCurrentHp() + "/" + hero.getMaxHp());
-        JLabel mp = new JLabel("Mp：" + hero.getCurrentMp() + "/" + hero.getMaxMp());
-        JLabel exp = new JLabel("Exp：" + hero.getExp() + "/" + hero.getMaxExp());
-        JLabel attack = new JLabel("攻击力：" + hero.getAttack());
-        JLabel defense = new JLabel("防御力：" + hero.getDefense());
-        JLabel growthRate = new JLabel("成长值：" + hero.getGrowthRate());
-        JLabel element = new JLabel("五行属性：" + hero.getElement().name());
+        nameLabel = new JLabel("英雄名字：" + hero.getName());
+        levelLabel = new JLabel("等级：" + hero.getLevel());
+        hpLabel = new JLabel("Hp：" + hero.getCurrentHp() + "/" + hero.getMaxHp());
+        mpLabel = new JLabel("Mp：" + hero.getCurrentMp() + "/" + hero.getMaxMp());
+        expLabel = new JLabel("Exp：" + hero.getExp() + "/" + hero.getMaxExp());
+        attackLabel = new JLabel("攻击力：" + hero.getAttack());
+        defenseLabel = new JLabel("防御力：" + hero.getDefense());
+        growthRateLabel = new JLabel("成长值：" + hero.getGrowthRate());
+        elementLabel = new JLabel("五行属性：" + hero.getElement().name());
 
-        name.setBounds(informationX,informationY,informationWidth,informationHeight);
-        level.setBounds(informationX,informationY + 40,informationWidth,informationHeight);
-        hp.setBounds(informationX,informationY + 80,informationWidth,informationHeight);
-        mp.setBounds(informationX,informationY + 120,informationWidth,informationHeight);
-        exp.setBounds(informationX,informationY + 160,informationWidth,informationHeight);
-        attack.setBounds(informationX,informationY + 200,informationWidth,informationHeight);
-        defense.setBounds(informationX,informationY + 240,informationWidth,informationHeight);
-        growthRate.setBounds(informationX,informationY + 280,informationWidth,informationHeight);
-        element.setBounds(informationX,informationY + 320,informationWidth,informationHeight);
+        nameLabel.setBounds(informationX,informationY,informationWidth,informationHeight);
+        levelLabel.setBounds(informationX,informationY + 40,informationWidth,informationHeight);
+        hpLabel.setBounds(informationX,informationY + 80,informationWidth,informationHeight);
+        mpLabel.setBounds(informationX,informationY + 120,informationWidth,informationHeight);
+        expLabel.setBounds(informationX,informationY + 160,informationWidth,informationHeight);
+        attackLabel.setBounds(informationX,informationY + 200,informationWidth,informationHeight);
+        defenseLabel.setBounds(informationX,informationY + 240,informationWidth,informationHeight);
+        growthRateLabel.setBounds(informationX,informationY + 280,informationWidth,informationHeight);
+        elementLabel.setBounds(informationX,informationY + 320,informationWidth,informationHeight);
 
-        heroBaseInformationPanel.add(name);
-        heroBaseInformationPanel.add(level);
-        heroBaseInformationPanel.add(hp);
-        heroBaseInformationPanel.add(mp);
-        heroBaseInformationPanel.add(exp);
-        heroBaseInformationPanel.add(attack);
-        heroBaseInformationPanel.add(defense);
-        heroBaseInformationPanel.add(growthRate);
-        heroBaseInformationPanel.add(element);
+        heroBaseInformationPanel.add(nameLabel);
+        heroBaseInformationPanel.add(levelLabel);
+        heroBaseInformationPanel.add(hpLabel);
+        heroBaseInformationPanel.add(mpLabel);
+        heroBaseInformationPanel.add(expLabel);
+        heroBaseInformationPanel.add(attackLabel);
+        heroBaseInformationPanel.add(defenseLabel);
+        heroBaseInformationPanel.add(growthRateLabel);
+        heroBaseInformationPanel.add(elementLabel);
 
         this.add(heroBaseInformationPanel);
+    }
+
+    /**
+     * 刷新所有标签内容
+     */
+    private void refreshLabels() {
+        nameLabel.setText("英雄名字：" + hero.getName());
+        levelLabel.setText("等级：" + hero.getLevel());
+        hpLabel.setText("Hp：" + hero.getCurrentHp() + "/" + hero.getMaxHp());
+        mpLabel.setText("Mp：" + hero.getCurrentMp() + "/" + hero.getMaxMp());
+        expLabel.setText("Exp：" + hero.getExp() + "/" + hero.getMaxExp());
+        attackLabel.setText("攻击力：" + hero.getAttack());
+        defenseLabel.setText("防御力：" + hero.getDefense());
+        growthRateLabel.setText("成长值：" + hero.getGrowthRate());
+        elementLabel.setText("五行属性：" + hero.getElement().name());
+        this.setTitle(hero.getName() + "--信息："); // 更新窗口标题
+
+        // 重新绘制界面
+        heroBaseInformationPanel.revalidate();
+        heroBaseInformationPanel.repaint();
     }
 
     /**
@@ -97,6 +128,7 @@ public class HeroDetailedInformationUI extends JFrame {
             if(newName == null) return;
             hero.setName(newName);
             System.out.println("英雄名字修改成功！");
+            refreshLabels(); // 修改后刷新
         });
         buttonPanel.add(name);
     }
@@ -124,7 +156,7 @@ public class HeroDetailedInformationUI extends JFrame {
                 informationY + informationHeight * 8,
                 140,
                 informationHeight);
-        this.add(elementBtn);
+        buttonPanel.add(elementBtn);
     }
 
     private void initGrowthRateBtn() {
@@ -137,6 +169,7 @@ public class HeroDetailedInformationUI extends JFrame {
                     JOptionPane.INFORMATION_MESSAGE);
             if(growthRate==null) return;
             hero.setGrowthRate(Integer.parseInt(growthRate));
+            refreshLabels(); // 修改后刷新
         });
         growthRateBtn.setBounds(btnX,
                 informationY + informationHeight * 7,
@@ -155,6 +188,7 @@ public class HeroDetailedInformationUI extends JFrame {
                     JOptionPane.INFORMATION_MESSAGE);
             if(defense==null) return;
             hero.setDefense(Integer.parseInt(defense));
+            refreshLabels(); // 修改后刷新
         });
         defenseBtn.setBounds(btnX,
                 informationY + informationHeight * 6,
@@ -173,6 +207,7 @@ public class HeroDetailedInformationUI extends JFrame {
                     JOptionPane.INFORMATION_MESSAGE);
             if(attack==null) return;
             hero.setAttack(Integer.parseInt(attack));
+            refreshLabels(); // 修改后刷新
         });
         attackBtn.setBounds(btnX,
                 informationY + informationHeight * 5,
@@ -191,6 +226,7 @@ public class HeroDetailedInformationUI extends JFrame {
                     JOptionPane.INFORMATION_MESSAGE);
             if(exp==null) return;
             hero.setExp(Integer.parseInt(exp));
+            refreshLabels(); // 修改后刷新
         });
         expBtn.setBounds(btnX,
                 informationY + informationHeight * 4,
@@ -209,6 +245,7 @@ public class HeroDetailedInformationUI extends JFrame {
                     JOptionPane.INFORMATION_MESSAGE);
             if(currentMp==null) return;
             hero.setCurrentMp(Integer.parseInt(currentMp));
+            refreshLabels(); // 修改后刷新
         });
         currentMpBtn.setBounds(btnX,
                 informationY + informationHeight * 3,
@@ -225,6 +262,7 @@ public class HeroDetailedInformationUI extends JFrame {
                     JOptionPane.INFORMATION_MESSAGE);
             if(maxMp==null) return;
             hero.setMaxMp(Integer.parseInt(maxMp));
+            refreshLabels(); // 修改后刷新
         });
         maxMpBtn.setBounds(btnX + 70,
                 informationY + informationHeight * 3,
@@ -246,6 +284,7 @@ public class HeroDetailedInformationUI extends JFrame {
                     JOptionPane.INFORMATION_MESSAGE);
             if(currentHp==null) return;
             hero.setCurrentHp(Integer.parseInt(currentHp));
+            refreshLabels(); // 修改后刷新
         });
         currentHpBtn.setBounds(btnX,
                 informationY + informationHeight * 2,
@@ -262,6 +301,7 @@ public class HeroDetailedInformationUI extends JFrame {
                     JOptionPane.INFORMATION_MESSAGE);
             if(maxHp==null) return;
             hero.setMaxHp(Integer.parseInt(maxHp));
+            refreshLabels(); // 修改后刷新
         });
         maxHpBtn.setBounds(btnX + 70,
                 informationY + informationHeight * 2,
@@ -286,12 +326,18 @@ public class HeroDetailedInformationUI extends JFrame {
             while(need-- != 0) {
                 hero.gainExp(hero.getMaxExp());
             }
+            refreshLabels(); // 升级后刷新
         });
         upLevel.setBounds(btnX,
                 informationY + informationHeight,
                 140,
                 informationHeight);
         buttonPanel.add(upLevel);
+    }
+
+    // 提供公共刷新方法供其他类调用
+    public void refresh() {
+        refreshLabels();
     }
 }
 
@@ -334,10 +380,11 @@ class ChangeElementPanel extends JFrame {
         res.setSize(40,40);
         res.addActionListener(e -> {
             hero.setElement(ele);
+            heroUi.refresh(); // 通知主界面刷新
             dispose();
             JOptionPane.showMessageDialog(this,
                     "修改成功","通知,",
-                            JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.INFORMATION_MESSAGE);
         });
         return res;
     }
